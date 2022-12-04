@@ -83,11 +83,13 @@ class ReportController extends Controller
 
         try {
             $this->reportRepository->store($data);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => 'Please check the sql in your payload!'], 500);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
 
-        return response()->json(['message' => 'Report created!'], Response::HTTP_CREATED);
+        return response()->json(['message' => 'Report created!'], 201);
     }
 }

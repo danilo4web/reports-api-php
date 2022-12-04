@@ -15,7 +15,7 @@ class JobSeeder extends Seeder
     public function run()
     {
         Job::factory()->create([
-            'cron' => '* * * * *',
+            'cron' => '*/5 * * * *',
         ]);
     }
 }

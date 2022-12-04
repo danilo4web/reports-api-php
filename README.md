@@ -9,6 +9,9 @@ This is a report api microservice build using laravel 9. The goal is only demons
 #### Composer install:
 ```docker-compose run --rm php composer install```
 
+#### Create .env FILE:
+```cp .env.example .env```
+
 #### Create and populate database with the fake data:
 ```docker-compose run --rm php php artisan migrate --seed```
 

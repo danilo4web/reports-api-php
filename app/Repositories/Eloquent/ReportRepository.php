@@ -31,4 +31,19 @@ class ReportRepository extends AbstractRepository implements ReportRepositoryInt
 
         return DB::select(DB::raw($sql));
     }
+
+    public function store(array $data)
+    {
+        $this->checkSqlHealthy($data['sql']);
+        parent::store($data);
+    }
+
+    public function checkSqlHealthy(string $sql): void
+    {
+        try {
+            DB::select(DB::raw($sql));
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException($e->getMessage());
+        }
+    }
 }
