@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Service\FileData;
 
@@ -52,7 +51,7 @@ class ReportController extends Controller
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
 
-        $output = ['url' => URL::to('/api/v1/reports/download') . '/' . $reportLink];
+        $output = ['url' => $reportLink];
 
         return response()->json($output, 200);
     }
