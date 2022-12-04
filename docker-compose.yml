@@ -1,0 +1,65 @@
+version: '3.8'
+
+networks:
+    report_api:
+
+services:
+    mysql:
+        container_name: report_api_mysql
+        image: mysql:8
+        restart: unless-stopped
+        tty: true
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+            SERVICE_TAG: dev
+            SERVICE_NAME: mysql
+        networks:
+            - report_api
+
+    nginx:
+        container_name: report_api_nginx
+        image: nginx:stable-alpine
+        ports:
+            - '8080:80'
+            - '9001:9001'
+        volumes:
+            - .:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+            - mysql
+        networks:
+            - report_api
+
+    php:
+        container_name: report_api_php
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        volumes:
+            - .:/var/www/html
+        ports:
+            - '9000:9000'
+        networks:
+            - report_api
+
+    cron:
+        container_name: report_api_cron
+        build:
+            context: .
+            dockerfile: docker/cron/Dockerfile
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - php
+            - mysql
+        networks:
+            - report_api
+
+volumes:
+    db_data: {}
