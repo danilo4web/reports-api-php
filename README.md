@@ -17,3 +17,28 @@ This is a report api microservice build using laravel 9. The goal is only demons
 
 #### Check PSR-12:
 ```docker-compose run --rm php composer check-psr12```
+
+### ROUTES API
+
+#### Create Report
+```
+POST http://0.0.0.0:8080/api/v1/reports
+{
+    "sql": "select u.name, t.amount, t.created_at from users u inner join transfers t on u.id = t.user_id"
+}
+```
+
+#### Export Report
+```
+POST http://0.0.0.0:8080/api/v1/reports/export
+{
+    "id": "1",
+    "dateStart": "2022-11-02",
+    "dateEnd": "2022-12-30"
+}
+```
+
+#### Download it:
+```
+GET http://0.0.0.0:8080/api/v1/reports/download/fileExample.csv
+```
