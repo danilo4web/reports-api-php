@@ -1,26 +1,28 @@
 This is a report api microservice build using laravel 9. The goal is only demonstrate knowledge:
 
-#### Clone repo from github to your local machine:
+#### Command to clone repository from the github to your local machine:
 ```git clone https://github.com/danilo4web/reports-api-php.git```
 
-#### Use the docker env to set up containers needed:
+#### Command to build the docker environment (set up containers needed):
 ```docker-compose up -d --build```
 
 #### Composer install:
 ```docker-compose run --rm php composer install```
 
-#### Create .env FILE:
+#### Create .env FILE configuration:
 ```cp .env.example .env```
+
+###### (You should provide a valid smtp account to send the mail reports)
 
 #### Create and populate database with the fake data:
 ```docker-compose run --rm php php artisan migrate --seed```
 
-#### Check PSR-12:
+#### Check PSR-12 - Coding Style:
 ```docker-compose run --rm php composer check-psr12```
 
 ### ROUTES API
 
-#### Create Report
+#### Create a new report
 ```
 POST http://0.0.0.0:8080/api/v1/reports
 {
@@ -28,7 +30,7 @@ POST http://0.0.0.0:8080/api/v1/reports
 }
 ```
 
-#### Export Report
+#### Export a report
 ```
 POST http://0.0.0.0:8080/api/v1/reports/export
 {
