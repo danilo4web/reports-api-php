@@ -20,6 +20,9 @@ This is a report api microservice build using laravel 9. The goal is only demons
 #### Check PSR-12 - Coding Style:
 ```docker-compose run --rm php composer check-psr12```
 
+#### Run the integration tests:
+```docker-compose run --rm php vendor/bin/phpunit --colors=always```
+
 ### ROUTES API
 
 #### Create a new report
