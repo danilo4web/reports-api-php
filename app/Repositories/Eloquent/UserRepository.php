@@ -8,4 +8,9 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     protected $model = User::class;
+
+    public function findByEmail(string $email): User
+    {
+        return $this->model::where('email', $email)->first();
+    }
 }

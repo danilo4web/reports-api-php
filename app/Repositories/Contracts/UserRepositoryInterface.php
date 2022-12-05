@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\User;
-
 interface UserRepositoryInterface
 {
     public function all();
@@ -15,4 +13,6 @@ interface UserRepositoryInterface
     public function update(int $id, array $data);
 
     public function delete(int $id);
+
+    public function findByEmail(string $email);
 }

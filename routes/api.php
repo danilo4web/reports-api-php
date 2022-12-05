@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\ReportController;
+
+Route::post('v1/auth/register', [AuthController::class, 'register']);
+Route::post('v1/auth/login', [AuthController::class, 'login'])->name('login');
+Route::get('v1/reports/download/{file}', [ReportController::class, 'download'])->name('api.v1.reports.download');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('v1/auth/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('v1/reports', [ReportController::class, 'create'])->name('api.v1.reports.create');
+    Route::post('v1/reports/export', [ReportController::class, 'export'])->name('api.v1.reports.export');
 });
-
-
-Route::post('v1/reports', [App\Http\Controllers\Api\V1\ReportController::class, 'create'])->name('api.v1.reports.create');
-Route::post('v1/reports/export', [App\Http\Controllers\Api\V1\ReportController::class, 'export'])->name('api.v1.reports.export');
-Route::get('v1/reports/download/{file}', [App\Http\Controllers\Api\V1\ReportController::class, 'download'])->name('api.v1.reports.download');

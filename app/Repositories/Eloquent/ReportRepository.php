@@ -11,9 +11,20 @@ class ReportRepository extends AbstractRepository implements ReportRepositoryInt
 {
     protected $model = Report::class;
 
+    public function store(array $data)
+    {
+        $this->checkSqlHealthy($data['sql']);
+        parent::store($data);
+    }
+
     public function exportData(int $reportId, ?DateTime $dateStart, ?DateTime $dateEnd): array
     {
-        $report = Report::find($reportId);
+        $report = $this->model::find($reportId);
+
+        if (!$report) {
+            return [];
+        }
+
         $sql = $report->sql;
 
         if (!is_null($dateStart) && is_null($dateEnd)) {
@@ -30,12 +41,6 @@ class ReportRepository extends AbstractRepository implements ReportRepositoryInt
         }
 
         return DB::select(DB::raw($sql));
-    }
-
-    public function store(array $data)
-    {
-        $this->checkSqlHealthy($data['sql']);
-        parent::store($data);
     }
 
     public function checkSqlHealthy(string $sql): void
