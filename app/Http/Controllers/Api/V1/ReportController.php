@@ -45,7 +45,7 @@ class ReportController extends Controller
             }
             $reportLink = $this->fileDataService->createDownloadFile($reportData);
         } catch (\DomainException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => 'Something went wrong!'], 500);
@@ -76,7 +76,7 @@ class ReportController extends Controller
         return response()->download($file, $reportFile)->deleteFileAfterSend();
     }
 
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         $data = $request->all();
 
