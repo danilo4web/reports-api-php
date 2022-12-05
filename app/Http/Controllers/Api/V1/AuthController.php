@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\AuthLoginPostRequest;
 use App\Http\Requests\AuthRegisterPostRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +36,7 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request)
+    public function login(AuthLoginPostRequest $request): JsonResponse
     {
         try {
             if (!Auth::attempt($request->only(['email', 'password']))) {
@@ -58,7 +58,7 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
 
