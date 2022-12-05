@@ -44,3 +44,6 @@ POST http://0.0.0.0:8080/api/v1/reports/export
 ```
 GET http://0.0.0.0:8080/api/v1/reports/download/fileExample.csv
 ```
+
+#### Postman collection with the endpoints from the app:
+Download the postman collection: [Download Collection](https://raw.githubusercontent.com/danilo4web/reports-api-php/main/Report_API.postman_collection.json)
