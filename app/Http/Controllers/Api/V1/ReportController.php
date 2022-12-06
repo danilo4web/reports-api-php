@@ -18,20 +18,10 @@ class ReportController extends Controller
     ) {
     }
 
-    public function export(ReportExportPostRequest $request): JsonResponse
+    public function export(ReportExportPostRequest $reportRequest): JsonResponse
     {
-        $input = [
-            'reportId' => $request->input('id'),
-            'dateStart' => $request->input('dateStart')
-                ? \DateTime::createFromFormat('Y-m-d', $request->input('dateStart'))
-                : null,
-            'dateEnd' => $request->input('dateEnd')
-                ? \DateTime::createFromFormat('Y-m-d', $request->input('dateEnd'))
-                : null,
-        ];
-
         try {
-            $reportLink = $this->reportService->generateReportFile($input);
+            $reportLink = $this->reportService->generateReportFile($reportRequest->reportInputDTO());
         } catch (\DomainException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (\Exception $e) {

@@ -25,4 +25,17 @@ class ReportExportPostRequest extends FormRequest
             'data' => $validator->errors()
         ]));
     }
+
+    public function reportInputDTO(): array
+    {
+        return [
+            'reportId' => $this->input('id'),
+            'dateStart' => $this->input('dateStart')
+                ? \DateTime::createFromFormat('Y-m-d', $this->input('dateStart'))
+                : null,
+            'dateEnd' => $this->input('dateEnd')
+                ? \DateTime::createFromFormat('Y-m-d', $this->input('dateEnd'))
+                : null,
+        ];
+    }
 }
