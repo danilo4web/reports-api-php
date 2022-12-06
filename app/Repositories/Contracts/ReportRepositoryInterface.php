@@ -16,5 +16,5 @@ interface ReportRepositoryInterface
 
     public function delete(int $id);
 
-    public function exportData(int $reportId, ?DateTime $dateStart, ?DateTime $dateEnd): array;
+    public function exportData(array $reportInputDto): array;
 }

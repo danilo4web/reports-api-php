@@ -13,13 +13,9 @@ class ReportService
     ) {
     }
 
-    public function generateReportFile(array $input): string
+    public function generateReportFile(array $reportInputDto): string
     {
-        $reportData = $this->reportRepository->exportData(
-            $input['reportId'],
-            $input['dateStart'],
-            $input['dateEnd']
-        );
+        $reportData = $this->reportRepository->exportData($reportInputDto);
 
         if (count($reportData) === 0) {
             throw new \DomainException('No data found!');

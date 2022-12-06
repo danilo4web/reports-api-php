@@ -17,9 +17,9 @@ class ReportRepository extends AbstractRepository implements ReportRepositoryInt
         parent::store($data);
     }
 
-    public function exportData(int $reportId, ?DateTime $dateStart, ?DateTime $dateEnd): array
+    public function exportData(array $reportInputDto): array
     {
-        $report = $this->model::find($reportId);
+        $report = $this->model::find($reportInputDto['reportId']);
 
         if (!$report) {
             return [];
@@ -27,17 +27,17 @@ class ReportRepository extends AbstractRepository implements ReportRepositoryInt
 
         $sql = $report->sql;
 
-        if (!is_null($dateStart) && is_null($dateEnd)) {
-            $sql .= " WHERE t.created_at >= '{$dateStart->format('Y-m-d')}'";
+        if (!is_null($reportInputDto['dateStart']) && is_null($reportInputDto['dateEnd'])) {
+            $sql .= " WHERE t.created_at >= '{$reportInputDto['dateStart']->format('Y-m-d')}'";
         }
 
-        if (is_null($dateStart) && !is_null($dateEnd)) {
-            $sql .= " WHERE t.created_at <= '{$dateEnd->format('Y-m-d')} 23:59:59'";
+        if (is_null($reportInputDto['dateStart']) && !is_null($reportInputDto['dateEnd'])) {
+            $sql .= " WHERE t.created_at <= '{$reportInputDto['dateEnd']->format('Y-m-d')} 23:59:59'";
         }
 
-        if (!is_null($dateStart) && !is_null($dateEnd)) {
-            $sql .= " WHERE t.created_at BETWEEN '{$dateStart->format('Y-m-d')}'";
-            $sql .= " AND '{$dateEnd->format('Y-m-d')} 23:59:59'";
+        if (!is_null($reportInputDto['dateStart']) && !is_null($reportInputDto['dateEnd'])) {
+            $sql .= " WHERE t.created_at BETWEEN '{$reportInputDto['dateStart']->format('Y-m-d')}'";
+            $sql .= " AND '{$reportInputDto['dateEnd']->format('Y-m-d')} 23:59:59'";
         }
 
         return DB::select(DB::raw($sql));
