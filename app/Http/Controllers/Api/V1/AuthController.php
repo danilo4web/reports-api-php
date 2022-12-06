@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function register(AuthRegisterPostRequest $request): JsonResponse
     {
         try {
-            $user = $this->userRepository->store([
+            $userEntity = $this->userRepository->store([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
@@ -29,7 +29,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $this->userRepository->createToken($userEntity)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => false, 'message' => $th->getMessage()], 500);
@@ -46,12 +46,12 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $user = $this->userRepository->findByEmail($request->email);
+            $userEntity = $this->userRepository->findByEmail($request->email);
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $this->userRepository->createToken($userEntity)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => false, 'message' => $th->getMessage()], 500);

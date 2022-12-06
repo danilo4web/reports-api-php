@@ -7,5 +7,5 @@ use App\Repositories\Contracts\JobRepositoryInterface;
 
 class JobRepository extends AbstractRepository implements JobRepositoryInterface
 {
-    protected $model = Job::class;
+    protected string $model = Job::class;
 }

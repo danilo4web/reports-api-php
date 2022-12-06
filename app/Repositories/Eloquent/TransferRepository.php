@@ -7,5 +7,5 @@ use App\Repositories\Contracts\TransferRepositoryInterface;
 
 class TransferRepository extends AbstractRepository implements TransferRepositoryInterface
 {
-    protected $model = Transfer::class;
+    protected string $model = Transfer::class;
 }

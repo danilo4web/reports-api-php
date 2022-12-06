@@ -9,7 +9,7 @@ use DateTime;
 
 class ReportRepository extends AbstractRepository implements ReportRepositoryInterface
 {
-    protected $model = Report::class;
+    protected string $model = Report::class;
 
     public function store(array $data)
     {

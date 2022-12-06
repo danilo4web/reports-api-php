@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\OrderError;
+use App\Adapter\FileGeneratorAdapterInterface;
 use App\Repositories\Contracts\JobRepositoryInterface;
 use App\Repositories\Contracts\ReportRepositoryInterface;
-use App\Service\FileData;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use App\Mail\ReportMail;
@@ -34,7 +33,7 @@ class SendMailReportCron extends Command
     public function __construct(
         private JobRepositoryInterface $jobRepository,
         private ReportRepositoryInterface $reportRepository,
-        private FileData $fileDataService,
+        private FileGeneratorAdapterInterface $csvFileGenerator,
     ) {
         parent::__construct();
     }
@@ -60,7 +59,7 @@ class SendMailReportCron extends Command
             }
 
             $reportData = $this->reportRepository->exportData($reportId, null, null);
-            $reportLink = $this->fileDataService->createDownloadFile($reportData);
+            $reportLink = $this->csvFileGenerator->createDownloadFile('public', $reportData);
             $emailData = [
                 'title' => 'Report Done!',
                 'body' => 'Download it here: ' . $reportLink

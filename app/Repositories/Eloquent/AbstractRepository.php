@@ -4,11 +4,12 @@ namespace App\Repositories\Eloquent;
 
 abstract class AbstractRepository
 {
-    protected $model;
+    protected string $model;
+    protected Model $modelResolved;
 
     public function __construct()
     {
-        $this->model = $this->resolveModel();
+        $this->modelResolved = $this->resolveModel();
     }
 
     public function all()
@@ -31,7 +32,7 @@ abstract class AbstractRepository
         return $this->model->find($id)->update($data);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         return $this->model->find($id)->delete();
     }
