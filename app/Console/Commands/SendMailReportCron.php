@@ -58,7 +58,11 @@ class SendMailReportCron extends Command
                 return 0;
             }
 
-            $reportData = $this->reportRepository->exportData($reportId, null, null);
+            $reportData = $this->reportRepository->exportData([
+                'reportId' => $reportId,
+                'dateStart' => null,
+                'dateEnd' => null
+            ]);
             $reportLink = $this->csvFileGenerator->createDownloadFile('public', $reportData);
             $emailData = [
                 'title' => 'Report Done!',
