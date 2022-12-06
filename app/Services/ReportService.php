@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Adapter\FileGeneratorAdapterInterface;
 use App\Repositories\Contracts\ReportRepositoryInterface;
 
-class ReportService implements ReportServiceInterface
+class ReportService
 {
     public function __construct(
         private ReportRepositoryInterface $reportRepository,

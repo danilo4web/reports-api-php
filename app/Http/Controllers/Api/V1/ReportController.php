@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportExportPostRequest;
-use App\Services\ReportServiceInterface;
+use App\Services\ReportService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class ReportController extends Controller
 {
     public function __construct(
-        private ReportServiceInterface $reportService,
+        private ReportService $reportService,
     ) {
     }
 
