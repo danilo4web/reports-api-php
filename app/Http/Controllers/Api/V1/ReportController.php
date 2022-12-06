@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportExportPostRequest;
+use App\Http\Requests\ReportPostRequest;
 use App\Services\ReportService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -48,12 +48,10 @@ class ReportController extends Controller
         return response()->download($filePath, $reportFile)->deleteFileAfterSend();
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(ReportPostRequest $reportRequest): JsonResponse
     {
-        $input = $request->all();
-
         try {
-            $this->reportService->createReport($input);
+            $this->reportService->createReport($reportRequest->reportInputDTO());
         } catch (\InvalidArgumentException $e) {
             return response()->json(['message' => 'Please check the sql in your payload!'], 500);
         } catch (\Exception $e) {
