@@ -2,11 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Entity\UserEntity;
+
 interface UserRepositoryInterface
 {
     public function all();
 
-    public function find(int $id);
+    public function getById(int $id): UserEntity;
 
     public function store(array $data): UserEntity;
 
